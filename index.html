@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BaitScout Animáció</title>
+    <title>BaitScout</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
     <style>
         @keyframes lightenBackground {
@@ -17,7 +17,7 @@
         body {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            min-height: 100vh;
             background-image: url('background.jpeg');
             background-size: cover;
             background-position: center;
@@ -47,6 +47,10 @@
             top: 60px;
             left: 60px;
             z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
         }
         @keyframes fadeInCharacter {
             0% {
@@ -75,6 +79,8 @@
             text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
             margin-bottom: 20px;
             letter-spacing: 3px;
+            white-space: nowrap;
+            overflow: hidden;
         }
         .first-line span {
             opacity: 0;
@@ -148,8 +154,9 @@
             animation: floatY 3s ease-in-out 2s infinite;
         }
         @media (max-width: 768px) {
-            .first-line { font-size: 64px; letter-spacing: 4px; }
-            .second-line { font-size: 32px; letter-spacing: 1px; }
+            .first-line { font-size: 36px; letter-spacing: 2px; white-space: nowrap; }
+            .second-line { font-size: 20px; letter-spacing: 1px; }
+            .text-container { left: 10px; top: 10px; height: 100vh; }
         }
     </style>
 </head>
