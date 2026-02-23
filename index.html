@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaitScout Animáció</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        @keyframes lightenBackground {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('background.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 1;
+            animation: lightenBackground 2.5s ease-in-out 0.5s forwards;
+        }
+        .text-container {
+            text-align: left;
+            position: absolute;
+            top: 60px;
+            left: 60px;
+            z-index: 2;
+        }
+        @keyframes fadeInCharacter {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes glowPulse {
+            0% {
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            }
+            50% {
+                text-shadow: 0 0 40px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 212, 255, 0.6);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            }
+        }
+        .first-line {
+            font-family: 'Poppins', sans-serif;
+            font-size: 96px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+        .first-line span {
+            opacity: 0;
+            display: inline-block;
+        }
+        .first-line span.animate {
+            animation: fadeInCharacter 3s ease-in-out forwards;
+        }
+        .first-line.glow {
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+        @keyframes fadeInFromLeft {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes floatY {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-8px); }
+            50% { transform: translateY(0); }
+            100% { transform: translateY(0); }
+        }
+        .second-line {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+            letter-spacing: 3px;
+            line-height: 1;
+            margin-top: -35px;
+            opacity: 0;
+        }
+        .second-line.animate {
+            animation: fadeInText 3s ease-in-out forwards;
+        }
+        .footer-tags {
+                    .hashtags {
+                        line-height: 1.1;
+                    }
+            position: fixed;
+            left: 60px;
+            bottom: 20px;
+            z-index: 3;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            max-width: calc(100% - 120px);
+            line-height: 1.4;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+        .footer-tags.visible {
+            opacity: 1;
+            transform: translateY(0);
+            will-change: transform, opacity;
+            animation: floatY 3s ease-in-out 2s infinite;
+        }
+        @media (max-width: 768px) {
+            .first-line { font-size: 64px; letter-spacing: 4px; }
+            .second-line { font-size: 32px; letter-spacing: 1px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-container">
+        <div class="first-line" id="headline">BaitScout</div>
+        <div class="second-line" id="subtext">Something big is coming for you to catch...</div>
+    </div>
+    <div id="footer-tags" class="footer-tags">Coming soon to top app stores.
+<span class="hashtags">#baitscout #baitscoutapp #fishingapp #fishing</span>
+<span class="hashtags">#smartfishing #bebetter #catchmore #learnmore</span></div>
+
+    <script>
+        function wrapCharacters(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            element.innerHTML = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text[i];
+                if (text[i] === ' ') {
+                    span.style.marginRight = '0.3em';
+                }
+                element.appendChild(span);
+            }
+        }
+        
+        function wrapWords(elementId) {
+            // Ez már nem szükséges, mivel az egész szöveget egybe kezeljük
+        }
+        
+        function animateCharacters(elementId, startDelay) {
+            const element = document.getElementById(elementId);
+            const directSpans = element.querySelectorAll(':scope > span');
+            
+            directSpans.forEach((span, index) => {
+                setTimeout(() => {
+                    span.classList.add('animate');
+                }, startDelay + (index * 80));
+            });
+        }
+        
+        function animateWords(elementId, startDelay) {
+            const element = document.getElementById(elementId);
+            
+            setTimeout(() => {
+                element.classList.add('animate');
+            }, startDelay);
+        }
+        
+        window.addEventListener('load', () => {
+            wrapCharacters('headline');
+            
+            animateCharacters('headline', 3000);
+            animateWords('subtext', 6000);
+            
+            // Glow effekt: indítás pontosan, amikor az alsó sor animációja befejeződik
+            const subEl = document.getElementById('subtext');
+            const footer = document.getElementById('footer-tags');
+            if (subEl) {
+                subEl.addEventListener('animationend', () => {
+                    document.getElementById('headline').classList.add('glow');
+                    if (footer) footer.classList.add('visible');
+                }, { once: true });
+            } else {
+                // fallback: ha nincs subtext, indítsuk 9s után
+                setTimeout(() => {
+                    document.getElementById('headline').classList.add('glow');
+                    if (footer) footer.classList.add('visible');
+                }, 9000);
+            }
+        });
+    </script>
+</body>
+</html>
