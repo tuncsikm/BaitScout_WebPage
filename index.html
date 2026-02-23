@@ -28,6 +28,26 @@
             align-items: center;
             position: relative;
         }
+        @media (max-width: 480px) {
+            html, body {
+                height: 100vh;
+                min-height: 100vh;
+                width: 100vw;
+                overflow: hidden;
+            }
+            body {
+                background-position: 60% center;
+            }
+            .text-container {
+                left: 0;
+                top: 0;
+                width: 100vw;
+                height: 100vh;
+                padding: 24px 12px 0 12px;
+                box-sizing: border-box;
+            }
+            .footer-tags { left: 12px; right: 12px; max-width: calc(100% - 24px); }
+        }
         body::before {
             content: '';
             position: fixed;
@@ -44,12 +64,12 @@
         .text-container {
             text-align: left;
             position: absolute;
-            top: 60px;
+            top: 30px;
             left: 60px;
             z-index: 2;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100vh;
         }
         @keyframes fadeInCharacter {
@@ -77,7 +97,7 @@
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             letter-spacing: 3px;
             white-space: nowrap;
             overflow: hidden;
@@ -122,7 +142,8 @@
             text-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
             letter-spacing: 3px;
             line-height: 1;
-            margin-top: -35px;
+            margin-top: 0;
+            margin-bottom: 32px;
             opacity: 0;
         }
         .second-line.animate {
@@ -154,9 +175,10 @@
             animation: floatY 3s ease-in-out 2s infinite;
         }
         @media (max-width: 768px) {
-            .first-line { font-size: 36px; letter-spacing: 2px; white-space: nowrap; }
-            .second-line { font-size: 20px; letter-spacing: 1px; }
+            .first-line { font-size: 36px; letter-spacing: 2px; white-space: nowrap; margin-bottom: 16px; }
+            .second-line { font-size: 20px; letter-spacing: 1px; margin-top: 0; margin-bottom: 20px; }
             .text-container { left: 10px; top: 10px; height: 100vh; }
+            .footer-tags { left: 10px; right: 10px; max-width: calc(100% - 20px); }
         }
     </style>
 </head>
