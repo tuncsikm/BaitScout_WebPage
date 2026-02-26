@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>BaitScout</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics - only loads if consent given -->
+    <script>
+        function loadGoogleAnalytics() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-69CMTRNR10';
+            document.head.appendChild(script);
+            
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-69CMTRNR10');
+        }
+        
+        // Check if consent already given
+        if (localStorage.getItem('cookieConsent') === 'accepted') {
+            loadGoogleAnalytics();
+        }
+    </script>
     <style>
         @keyframes lightenBackground {
             0% {
@@ -180,11 +200,14 @@
             color: rgba(255,255,255,0.9);
             opacity: 0;
             transform: translateY(8px);
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out, bottom 0.5s ease-in-out;
             max-width: calc(100% - 120px);
             line-height: 1.4;
             text-align: left;
             white-space: pre-wrap;
+        }
+        .footer-tags.above-cookie {
+            bottom: 50px;
         }
         .footer-tags.visible {
             opacity: 1;
@@ -238,11 +261,97 @@
                 box-sizing: border-box;
             }
             .footer-tags { left: 12px; right: 12px; max-width: calc(100% - 24px); }
+            .footer-tags.above-cookie {
+                bottom: 150px;
+            }
+        }
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            color: #fff;
+            padding: 20px;
+            z-index: 9999;
+            display: none;
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        .cookie-consent.show {
+            display: block;
+        }
+        .cookie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .cookie-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            flex: 1;
+            min-width: 250px;
+        }
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .cookie-btn {
+            font-family: 'Poppins', sans-serif;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .cookie-btn.accept {
+            background: rgba(0, 212, 255, 0.8);
+            color: #fff;
+        }
+        .cookie-btn.accept:hover {
+            background: rgba(0, 212, 255, 1);
+        }
+        .cookie-btn.decline {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .cookie-btn.decline:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        @media (max-width: 768px) {
+            .cookie-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cookie-buttons {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="bg-cover"></div>
+    
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                Ez az oldal sütiket (cookie-kat) használ a látogatottság mérésére és a felhasználói élmény javítására. A folytatással elfogadod a sütik használatát.
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn accept" onclick="acceptCookies()">Elfogadom</button>
+                <button class="cookie-btn decline" onclick="declineCookies()">Elutasítom</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="text-container">
         <div class="first-line" id="headline">BaitScout</div>
         <div class="second-line" id="subtext">Something big is coming for you to catch...</div>
@@ -311,7 +420,34 @@
                     if (footer) footer.classList.add('visible');
                 }, 9000);
             }
+            
+            // Cookie consent logic
+            showCookieConsent();
         });
+        
+        function showCookieConsent() {
+            const consent = localStorage.getItem('cookieConsent');
+            const footer = document.getElementById('footer-tags');
+            if (!consent) {
+                document.getElementById('cookieConsent').classList.add('show');
+                if (footer) footer.classList.add('above-cookie');
+            }
+        }
+        
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieConsent').classList.remove('show');
+            const footer = document.getElementById('footer-tags');
+            if (footer) footer.classList.remove('above-cookie');
+            loadGoogleAnalytics();
+        }
+        
+        function declineCookies() {
+            localStorage.setItem('cookieConsent', 'declined');
+            document.getElementById('cookieConsent').classList.remove('show');
+            const footer = document.getElementById('footer-tags');
+            if (footer) footer.classList.remove('above-cookie');
+        }
     </script>
 </body>
 </html>
