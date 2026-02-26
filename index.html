@@ -6,23 +6,31 @@
     <title>BaitScout</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
     
-    <!-- Google Analytics - only loads if consent given -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-69CMTRNR10"></script>
     <script>
-        function loadGoogleAnalytics() {
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-69CMTRNR10';
-            document.head.appendChild(script);
-            
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        
+        // Check consent before initializing
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        if (cookieConsent === 'accepted') {
             gtag('js', new Date());
             gtag('config', 'G-69CMTRNR10');
+        } else {
+            // Disable analytics until consent
+            gtag('consent', 'default', {
+                'analytics_storage': 'denied'
+            });
         }
         
-        // Check if consent already given
-        if (localStorage.getItem('cookieConsent') === 'accepted') {
-            loadGoogleAnalytics();
+        // Function to enable analytics after consent
+        function enableAnalytics() {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted'
+            });
+            gtag('js', new Date());
+            gtag('config', 'G-69CMTRNR10');
         }
     </script>
     <style>
@@ -439,7 +447,7 @@
             document.getElementById('cookieConsent').classList.remove('show');
             const footer = document.getElementById('footer-tags');
             if (footer) footer.classList.remove('above-cookie');
-            loadGoogleAnalytics();
+            enableAnalytics();
         }
         
         function declineCookies() {
